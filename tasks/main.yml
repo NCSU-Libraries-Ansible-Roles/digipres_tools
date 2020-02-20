@@ -1,0 +1,28 @@
+---
+# confirm/install basic utilities with yum
+- name: install digipres required packages
+  yum:
+    name: ['tar']
+    state: present
+    update_cache: yes
+# confirm/install python with brew
+- name: install python
+  become_user: "{{homebrew_user}}"
+  homebrew:
+    name: python
+    state: present
+# confirm/install homebrew dependencies
+- name: tap required homebrew repos
+  become_user: "{{homebrew_user}}"
+  homebrew_tap:
+    name: ['homebrew/bundle','homebrew/core','richardlehane/digipres']
+    state: present
+# confirm/install digipres tools
+- name: install digipres tools
+  become_user: "{{homebrew_user}}"
+  homebrew:
+    name: ['afflib','antiword','bulk_extractor','cdparanoia','clamav','coreutils',
+    'ddrescue','disktype','duff','fdupes','findutils','libarchive','libewf','sleuthkit','tree','twarc',
+    'richardlehane/digipres/siegfried']
+    # REMOVED FROM ORIGINAL LIST because Homebrew install isn't working: 'cdrdao'
+    state: present
